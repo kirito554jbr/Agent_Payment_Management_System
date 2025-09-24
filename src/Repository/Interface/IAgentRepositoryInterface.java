@@ -1,11 +1,13 @@
 package Repository.Interface;
 
+import Model.Agent;
+
 public interface IAgentRepositoryInterface {
 
-    public void create(int departemenet, int role, String nom, String prenom, String email, String password );
-    public void delete();
-    public void update();
-    public void findById();
-    public void findAll();
-    public void findByName();
+    String create(int departemenet, int role, String nom, String prenom, String email, String password );
+    String delete(String nom);
+    void update();
+    void findById();
+    void findAll();
+    Agent findByName(String nom);
 }

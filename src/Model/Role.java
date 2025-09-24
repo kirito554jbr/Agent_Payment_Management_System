@@ -1,8 +1,5 @@
 package Model;
 
-import Connection.MyJDBC;
-import java.sql.*;
-
 public class Role {
 
     private int id;

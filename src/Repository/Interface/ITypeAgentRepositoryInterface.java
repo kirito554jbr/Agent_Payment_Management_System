@@ -1,9 +1,9 @@
 package Repository.Interface;
 
 public interface ITypeAgentRepositoryInterface {
-    public void create(String rolenNom);
-    public void delete(int id);
-    public void update(int id, String rolenNom);
-    public void getById(int id);
-    public int getRoleByName(String roleName);
+    void create(String rolenNom);
+    void delete(int id);
+    void update(int id, String rolenNom);
+    void getById(int id);
+    int getRoleId(String roleName);
 }

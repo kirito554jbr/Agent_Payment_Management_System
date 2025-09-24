@@ -1,7 +1,7 @@
 package Repository;
 
 import DAO.TypeAgentDao;
-import Connection.MyJDBC;
+import Config.MyJDBC;
 import Repository.Interface.ITypeAgentRepositoryInterface;
 
 import java.sql.Connection;

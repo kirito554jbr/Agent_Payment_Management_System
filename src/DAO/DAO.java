@@ -1,10 +1,6 @@
 package DAO;
 
 import java.util.ArrayList;
-import Connection.MyJDBC;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 
 public class DAO {
 

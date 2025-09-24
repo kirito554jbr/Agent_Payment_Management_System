@@ -1,7 +1,7 @@
 package Repository;
 
 import Repository.Interface.IDepartementRepositoryInterface;
-import Connection.MyJDBC;
+import Config.MyJDBC;
 import java.sql.*;
 
 public class DepartementRepository implements IDepartementRepositoryInterface {
@@ -34,7 +34,7 @@ public class DepartementRepository implements IDepartementRepositoryInterface {
     public int findId(String departement) {
 
 
-        String sql = "SELECT * FROM departemet WHERE nom = ?";
+        String sql = "SELECT * FROM departement WHERE nom = ?";
         int id = 0;
 
         try (Connection conn = MyJDBC.getConnection();
@@ -42,7 +42,7 @@ public class DepartementRepository implements IDepartementRepositoryInterface {
             stmt.setString(1, departement);
             ResultSet rs = stmt.executeQuery();
             while(rs.next()){
-                id = rs.getInt("id");
+                id = rs.getInt("idDepartement");
             }
 //            System.out.println(roleName);
         }catch(SQLException e){

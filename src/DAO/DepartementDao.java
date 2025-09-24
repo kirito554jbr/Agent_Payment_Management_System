@@ -4,7 +4,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import Connection.*;
+import Config.*;
 import Model.Departement;
 
 public class DepartementDao {
