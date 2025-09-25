@@ -1,25 +1,27 @@
 package DAO;
 
 import Config.MyJDBC;
+import Model.Agent;
+
 import java.sql.*;
 
 
 public class AgentDao {
 
+    public static Connection conn = MyJDBC.getConnection();
 
 
-    public String   create(int departemenet, int role, String nom, String prenom, String email, String password){
-            String sql = "INSERT INTO agent (departement, role, nom , prenom, email, pasword) VALUES (?, ?, ?, ?, ?, ?)";
+    public String   create(Agent agent){
+            String sql = "INSERT INTO agent (nom , prenom, email, password, typeAgent , departement) VALUES (?, ?, ?, ?, ?, ?)";
 //
-    try(Connection conn = MyJDBC.getConnection();
-       PreparedStatement stmt = conn.prepareStatement(sql)){
+    try(PreparedStatement stmt = conn.prepareStatement(sql)){
 
-        stmt.setInt(1, departemenet);
-        stmt.setInt(2, role);
-        stmt.setString(3, nom);
-        stmt.setString(4, prenom);
-        stmt.setString(5, email);
-        stmt.setString(6, password);
+        stmt.setString(1, agent.getNom());
+        stmt.setString(2, agent.getPrenom());
+        stmt.setString(3, agent.getEmail());
+        stmt.setString(4, agent.getMotDePasse());
+        stmt.setString(5, agent.getTypeAgent());
+        stmt.setInt(6, agent.getDepartementId());
 
         int rows =  stmt.executeUpdate();
 //        System.out.println(rows + "agent inserted Succefully");
@@ -28,7 +30,7 @@ public class AgentDao {
         e.printStackTrace();
     };
 
-    return "agent " + nom +" created successfully!";
+    return "agent " + agent.getNom() +" created successfully!";
 //       Statement stmt = conn.createStatement();
 //       ResultSet resultSet = stmt.executeQuery("SELECT * FROM users");
     }
@@ -37,11 +39,10 @@ public class AgentDao {
 
     public String delete(String nom){
         String sql = "DELETE FROM agent WHERE nom = ?";
-        try(Connection conn = MyJDBC.getConnection();
-            PreparedStatement stmt = conn.prepareStatement(sql)){
+        try(PreparedStatement stmt = conn.prepareStatement(sql)){
 
             stmt.setString(1, nom);
-            int rows =  stmt.executeUpdate();
+            stmt.executeUpdate();
 
 
         }catch (SQLException e){
@@ -51,7 +52,23 @@ public class AgentDao {
 
     }
 
-    public void update(String nom, String prenom, String email, String password){
+    public void update(Agent agent,Agent updatedAgent){
+        String sql = "Update agent SET nom = ? AND prenom = ? AND email = ? AND password = ? typeAgent = ? AND departement WHERE id ?";
+
+        try(PreparedStatement stmt = conn.prepareStatement(sql)){
+
+            stmt.setString(1,agent.getNom());
+            stmt.setString(2,agent.getPrenom());
+            stmt.setString(3,agent.getEmail());
+            stmt.setString(4,agent.getMotDePasse());
+            stmt.setString(5,agent.getTypeAgent());
+            stmt.setInt(6,agent.getDepartementId());
+
+            stmt.executeUpdate();
+
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
 
     }
 }

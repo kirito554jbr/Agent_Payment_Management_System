@@ -17,6 +17,32 @@ public class Departement {
 //        this.responsable = null;
     }
 
+    public Departement(){
+        this.idDepartement = 0;
+        this.nom = null;
+    }
+
+    public Departement(String nom){
+        this.nom = nom;
+    }
+
+    public int getIdDepartement() {
+        return idDepartement;
+    }
+
+    public void setIdDepartement(int idDepartement) {
+        this.idDepartement = idDepartement;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+
 
     @Override
     public String toString() {

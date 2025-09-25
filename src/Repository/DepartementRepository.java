@@ -1,34 +1,54 @@
 package Repository;
 
+import DAO.DepartementDao;
+import Model.Departement;
 import Repository.Interface.IDepartementRepositoryInterface;
 import Config.MyJDBC;
 import java.sql.*;
+import java.util.List;
 
 public class DepartementRepository implements IDepartementRepositoryInterface {
-    @Override
-    public void create() {
 
+    private static DepartementDao departementDao = new DepartementDao();
+
+    @Override
+    public void create(Departement departement) {
+        try{
+        departementDao.create(departement);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public void delete() {
-
+    public void delete(String nom) {
+        try {
+            departementDao.delete(nom);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public void update() {
-
+    public void update(Departement departement, String updatedNom) {
+        departementDao.update(departement, updatedNom);
     }
+
 
     @Override
-    public void findById() {
-
+    public void findById(int id){
+         departementDao.findById(id);
     }
+
+
 
     @Override
-    public void findAll() {
-
+    public List<Departement> getdAll() {
+        return departementDao.getAll();
     }
+
+
+
 
     @Override
     public int findId(String departement) {
@@ -50,4 +70,5 @@ public class DepartementRepository implements IDepartementRepositoryInterface {
         }
         return  id;
     }
+
 }

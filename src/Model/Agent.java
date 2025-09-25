@@ -7,33 +7,52 @@ public class Agent extends Personne {
     private TypeAgent typeAgent;
     private Departement departement;
     private ArrayList<Paiment> paiments;
-//    private Role role;
 
 
 
+    public Agent(String typeAgent, Departement departement, String nom, String prenom, String email, String motDePasse) {
+        super(nom,prenom,email,motDePasse);
+//        this.idAgent = idAgent;
+//        this.typeAgent = typeAgent;
+        this.typeAgent = TypeAgent.valueOf(typeAgent.toUpperCase());
+        this.departement = departement;
+    }
+
+     public Agent(int idAgent,String typeAgent, Departement departement, String nom, String prenom, String email, String motDePasse) {
+        super(nom,prenom,email,motDePasse);
+        this.idAgent = idAgent;
+//        this.typeAgent = typeAgent;
+        this.typeAgent = TypeAgent.valueOf(typeAgent.toUpperCase());
+        this.departement = departement;
+    }
 
 
-//   public void create(String nom, String prenom, String email, String password){
-//
-//    String sql = "INSERT INTO agent (name , prenom, email, password) VALUES (?, ?, ?, ?)";
-//
-//    try(Connection conn = MyJDBC.getConnection();
-//       PreparedStatement stmt = conn.prepareStatement(sql)){
-//
-//        stmt.setString(1, nom);
-//        stmt.setString(2, prenom);
-//        stmt.setString(3, email);
-//        stmt.setString(4, password);
-//
-//        int rows =  stmt.executeUpdate();
-//        System.out.println(rows + "agent inserted Succefully");
-//
-//       }catch(SQLException e){
-//        e.printStackTrace();
-//    };
 
-//       Statement stmt = conn.createStatement();
-//       ResultSet resultSet = stmt.executeQuery("SELECT * FROM users");
-//   }
+    public int getIdAgent() {
+        return idAgent;
+    }
 
+    public void setIdAgent(int idAgent) {
+        this.idAgent = idAgent;
+    }
+
+    public String getTypeAgent() {
+        return typeAgent.toString();
+    }
+
+    public void setTypeAgent(TypeAgent typeAgent) {
+        this.typeAgent = typeAgent;
+    }
+
+    public Departement getDepartement() {
+        return departement;
+    }
+
+    public int getDepartementId(){
+        return departement.getIdDepartement();
+    }
+
+    public void setDepartement(Departement departement) {
+        this.departement = departement;
+    }
 }
