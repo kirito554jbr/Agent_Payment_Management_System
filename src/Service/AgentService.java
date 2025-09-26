@@ -23,7 +23,7 @@ public class AgentService {
         AgentService agentService = new AgentService();
 //        agentService.create("Managment","Trainee","harit","ennair","ennair@gmail.com","0000");
 //        agentService.delete("ahmed");
-        agentService.update("aymen",null,null,null,null,null,null);
+        agentService.update("aymen","IT","Worker",null,"erraji",null,null);
     }
 
     public AgentService() {
@@ -53,13 +53,29 @@ public class AgentService {
    //add condition when you call this method to enter null if there is no update on that specific element
     public void update(String nom, String updatedDepartemenet,  String updatedTypeAgent, String updatedNom, String updatedPrenom, String updatedEmail, String updatedPassword){
         Agent oldAgent = this.agent.findByName(nom);
-        System.out.println(oldAgent);
+//        System.out.println(oldAgent);
 
-//        Agent newAgent = new Agent(null, null, null, null, null, null);
-//        if(updatedDepartemenet == null) {
-//            int departement_id = this.departement.findId(oldAgent.getDepartementId());
-//            newAgent.setDepartement();
-//        }
+        Agent newAgent = new Agent(null, null, null, null, null, null);
+        if(updatedDepartemenet == null) {
+            newAgent.setDepartement(oldAgent.getDepartement());
+        }else {
+//            if(this.departement.checkIfExist) {
+                Departement newDepartment = this.departement.findByName(updatedDepartemenet);
+                newAgent.setDepartement(newDepartment);
+//            }
+        }
+        if(updatedNom == null){
+            newAgent.setNom(oldAgent.getNom());
+        }else{
+            newAgent.setNom(updatedNom);
+        }
+        newAgent.setTypeAgent(updatedTypeAgent == null ? oldAgent.getTypeAgent() : updatedTypeAgent);
+        newAgent.setNom(updatedNom == null ? oldAgent.getNom() : updatedNom);
+        newAgent.setPrenom(updatedPrenom == null ? oldAgent.getPrenom() : updatedPrenom);
+        newAgent.setEmail(updatedEmail == null ? oldAgent.getEmail() : updatedEmail);
+        newAgent.setMotDePasse(updatedPassword == null ? oldAgent.getMotDePasse() : updatedPassword);
+        this.agent.update(oldAgent,newAgent);
+//        System.out.println(newAgent);
     }
 
 

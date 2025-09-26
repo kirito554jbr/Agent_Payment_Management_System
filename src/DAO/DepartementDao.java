@@ -110,4 +110,26 @@ public class DepartementDao {
         }
         return departements;
     }
+
+
+    public Departement findByName(String department){
+        String sql = "SELECT * FROM departement WHERE nom = ?";
+        Departement returnDepartement = new Departement();
+        try(PreparedStatement stmt = conn.prepareStatement(sql)){
+            stmt.setString(1,department);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                returnDepartement.setIdDepartement(rs.getInt("idDepartement"));
+                returnDepartement.setNom(rs.getString("nom"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if(returnDepartement.getNom() == null ) {
+            return null;
+        }else {
+            return returnDepartement;
+        }
+    }
 }

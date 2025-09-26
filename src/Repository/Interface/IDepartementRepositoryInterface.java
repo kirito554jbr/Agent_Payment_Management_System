@@ -11,6 +11,6 @@ public interface IDepartementRepositoryInterface {
     //    Departement getById(int id);
     List<Departement> getdAll();
     int findId(String departement);
-
-    void findById(int departement);
+    Departement findByName(String departement);
+    Departement findById(int departement);
 }

@@ -53,16 +53,18 @@ public class AgentDao {
     }
 
     public void update(Agent agent,Agent updatedAgent){
-        String sql = "Update agent SET nom = ? AND prenom = ? AND email = ? AND password = ? typeAgent = ? AND departement WHERE id ?";
+        String sql = "UPDATE agent SET nom = ?, prenom = ?, email = ?, password = ?, typeAgent = ?, departement = ? WHERE idAgent = ?";
+
 
         try(PreparedStatement stmt = conn.prepareStatement(sql)){
 
-            stmt.setString(1,agent.getNom());
-            stmt.setString(2,agent.getPrenom());
-            stmt.setString(3,agent.getEmail());
-            stmt.setString(4,agent.getMotDePasse());
-            stmt.setString(5,agent.getTypeAgent());
-            stmt.setInt(6,agent.getDepartementId());
+            stmt.setString(1,updatedAgent.getNom());
+            stmt.setString(2,updatedAgent.getPrenom());
+            stmt.setString(3,updatedAgent.getEmail());
+            stmt.setString(4,updatedAgent.getMotDePasse());
+            stmt.setString(5,updatedAgent.getTypeAgent());
+            stmt.setInt(6,updatedAgent.getDepartementId());
+            stmt.setInt(7,agent.getIdAgent());
 
             stmt.executeUpdate();
 

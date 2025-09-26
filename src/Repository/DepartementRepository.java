@@ -36,8 +36,8 @@ public class DepartementRepository implements IDepartementRepositoryInterface {
 
 
     @Override
-    public void findById(int id){
-         departementDao.findById(id);
+    public Departement findById(int id){
+         return departementDao.findById(id);
     }
 
 
@@ -71,4 +71,8 @@ public class DepartementRepository implements IDepartementRepositoryInterface {
         return  id;
     }
 
+    @Override
+    public Departement findByName(String departement) {
+        return departementDao.findByName(departement);
+    }
 }

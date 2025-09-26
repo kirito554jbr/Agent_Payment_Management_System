@@ -7,6 +7,7 @@ import java.sql.*;
 import DAO.DepartementDao;
 import DAO.TypeAgentDao;
 import Model.Agent;
+import Model.Departement;
 import Repository.Interface.IAgentRepositoryInterface;
 import Repository.Interface.IDepartementRepositoryInterface;
 import Repository.Interface.ITypeAgentRepositoryInterface;
@@ -39,11 +40,11 @@ public class AgentRepository implements IAgentRepositoryInterface {
     }
 
 
-    public void findById(){}
-    public void findAll(){}
+//    public void findById(){}
+
     public Agent findByName(String name){
         String sql = "select * from agent where nom = ?";
-        Agent agent = new Agent(null, null,null,null,null,null);
+        Agent agent = new Agent(0,"Worker", null,null,null,null,null);
         try(Connection conn = MyJDBC.getConnection();
             PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, name);
@@ -58,18 +59,21 @@ public class AgentRepository implements IAgentRepositoryInterface {
                 String password = rs.getString("password");
                 role = rs.getString("typeAgent");
                 departement = rs.getInt("departement");
+                Departement d =  departementRepo.findById(departement);
+
+
                 agent.setIdAgent(idAgent);
-//                agent.setTypeAgent(role);
-//                agent.setDepartement(departement);
+                agent.setTypeAgent(role);
+                agent.setDepartement(d);
+                agent.setNom(nom);
+                agent.setPrenom(prenom);
+                agent.setEmail(email);
+                agent.setMotDePasse(password);
             }
-//            typeAgent.getById(role);
-            departementRepo.findById(departement);
-
-
         }catch (SQLException e){
             e.printStackTrace();
         }
-        return null;
+        return agent;
     }
 
 }

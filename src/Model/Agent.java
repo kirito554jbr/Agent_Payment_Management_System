@@ -12,9 +12,11 @@ public class Agent extends Personne {
 
     public Agent(String typeAgent, Departement departement, String nom, String prenom, String email, String motDePasse) {
         super(nom,prenom,email,motDePasse);
-//        this.idAgent = idAgent;
-//        this.typeAgent = typeAgent;
-        this.typeAgent = TypeAgent.valueOf(typeAgent.toUpperCase());
+        if(typeAgent == null) {
+            this.typeAgent = null;
+        }else {
+            this.typeAgent = TypeAgent.valueOf(typeAgent.toUpperCase());
+        }
         this.departement = departement;
     }
 
@@ -40,8 +42,8 @@ public class Agent extends Personne {
         return typeAgent.toString();
     }
 
-    public void setTypeAgent(TypeAgent typeAgent) {
-        this.typeAgent = typeAgent;
+    public void setTypeAgent(String typeAgent) {
+        this.typeAgent = TypeAgent.valueOf(typeAgent.toUpperCase());
     }
 
     public Departement getDepartement() {

@@ -4,5 +4,5 @@ public enum TypePaiement {
     SALAIRE,
     PRIME,
     BONUS,
-    INDEMNITE
+    INDEMNITE;
 }
