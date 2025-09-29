@@ -5,9 +5,9 @@ import Model.Departement;
 import java.util.List;
 
 public interface IDepartementRepositoryInterface {
-    void create(Departement departement);
-    void delete(String nom);
-    void update(Departement departement, String updatedNom);
+    boolean create(Departement departement);
+    boolean delete(String nom);
+    boolean update(Departement departement, String updatedNom);
     //    Departement getById(int id);
     List<Departement> getdAll();
     int findId(String departement);

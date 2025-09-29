@@ -1,15 +1,13 @@
 package Model;
 
-import java.util.ArrayList;
+import java.util.*;
 
 public class Departement {
-
-
 
     private int idDepartement;
     private String nom;
     private Agent responsable;
-    public ArrayList<Agent> agents;
+    public List<Agent> agents;
 
     public Departement(int idDepartement, String nom) {
         this.idDepartement = idDepartement;
@@ -42,7 +40,20 @@ public class Departement {
         this.nom = nom;
     }
 
+    public Agent getResponsable() {
+        return responsable;
+    }
 
+    public void setResponsable(Agent responsable) {
+        this.responsable = responsable;
+    }
+
+    public void setAgents(Agent agent) {
+        if (this.agents == null) {
+            this.agents = new ArrayList<>();
+        }
+        this.agents.add(agent);
+    }
 
     @Override
     public String toString() {

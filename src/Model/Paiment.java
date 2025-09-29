@@ -10,9 +10,10 @@ public class Paiment {
     private LocalDate date;
     private String motif;
     private Agent agent;
+    private boolean isValide;
 
 
-    public Paiment(int idPaiement, String typePaiement, double montant, String motif, Agent agent) {
+    public Paiment(int idPaiement, String typePaiement, double montant, String motif, Agent agent, boolean isValide) {
         this.idPaiement = idPaiement;
         if(typePaiement == null) {
             this.typePaiement = null;
@@ -23,6 +24,7 @@ public class Paiment {
         this.date = LocalDate.now();
         this.motif = motif;
         this.agent = agent;
+        this.isValide = isValide;
     }
 
     public Paiment(String typePaiement, double montant, String motif, Agent agent) {
@@ -35,6 +37,12 @@ public class Paiment {
         this.date = LocalDate.now();
         this.motif = motif;
         this.agent = agent;
+        this.isValide = false;
+    }
+
+    public Paiment(){
+
+
     }
 
     public int getIdPaiement() {
@@ -49,8 +57,8 @@ public class Paiment {
         return typePaiement.toString();
     }
 
-    public void setTypePaiement(TypePaiement typePaiement) {
-        this.typePaiement = typePaiement;
+    public void setTypePaiement(String typePaiement) {
+        this.typePaiement = TypePaiement.valueOf(typePaiement.toUpperCase());
     }
 
     public double getMontant() {
@@ -87,5 +95,25 @@ public class Paiment {
 
     public void setAgent(Agent agent) {
         this.agent = agent;
+    }
+
+    public boolean isValide() {
+        return isValide;
+    }
+
+    public void setValide(boolean valide) {
+        isValide = valide;
+    }
+
+    @Override
+    public String toString() {
+        return "Paiment{" +
+                "idPaiement=" + idPaiement +
+                ", typePaiement=" + typePaiement +
+                ", montant=" + montant +
+                ", date=" + date +
+                ", motif='" + motif + '\'' +
+                ", agent=" + agent +
+                '}';
     }
 }

@@ -22,44 +22,52 @@ public class DepartementDao {
         System.out.println(dao.findById(1));
     }
 
-    public void create(Departement departement)throws  SQLException{
+    public boolean create(Departement departement){
 
         String sql = "INSERT INTO departement(nom) VALUES(?)";
         try(PreparedStatement stmt = conn.prepareStatement(sql)){
 
             stmt.setString(1, departement.getNom());
 
-            System.out.println(stmt.executeUpdate() + "department inserted Succefully");
+            int row = stmt.executeUpdate();
+            return  row > 0;
+//            System.out.println(stmt.executeUpdate() + "department inserted Succefully");
 
 
         }catch (SQLException e){
             e.printStackTrace();
+            return false;
         }
 
     }
 
 
-    public void delete(String nom) throws SQLException{
+    public boolean delete(String nom){
         String sql = "DELETE FROM departement WHERE nom = ?";
 
         try(PreparedStatement stmt = conn.prepareStatement(sql)){
                 stmt.setString(1,nom);
-            System.out.println(stmt.executeUpdate() + "department deleted Succefully");
+                int row = stmt.executeUpdate();
+                return row > 0;
+//            System.out.println(stmt.executeUpdate() + "department deleted Succefully");
         }catch (SQLException e){
             e.printStackTrace();
+            return false;
         }
     }
 
 
-    public void update(Departement departement , String updatedNom){
+    public boolean update(Departement departement , String updatedNom){
         String sql = "UPDATE department SET nom = ? WHERE nom = ?";
 
         try(PreparedStatement stmt = conn.prepareStatement(sql)){
             stmt.setString(1,updatedNom);
             stmt.setString(1,departement.getNom());
-            stmt.executeUpdate();
+            int row = stmt.executeUpdate();
+            return row > 0;
         }catch (SQLException e){
             e.printStackTrace();
+            return false;
         }
     }
 

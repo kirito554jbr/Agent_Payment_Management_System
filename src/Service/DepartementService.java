@@ -16,17 +16,50 @@ public class DepartementService {
 
     public void create(String nom){
 
+        if (nom.isEmpty()){
+            System.out.println("Missing required field");
+            return;
+        }
         Departement departement = new Departement(nom);
-        this.depatementRepo.create(departement);
+       boolean created = this.depatementRepo.create(departement);
+
+        if(created){
+            System.out.println("Department created successfully!");
+        } else {
+            System.out.println("Failed to create department.");
+        }
     }
 
     public void delete(String nom){
-        this.depatementRepo.delete(nom);
+        if (nom.isEmpty()){
+            System.out.println("Missing required field");
+            return;
+        }
+        boolean deleted = this.depatementRepo.delete(nom);
+
+        if(deleted){
+            System.out.println("Department deleted successfully!");
+        } else {
+            System.out.println("Failed to delete department.");
+        }
     }
 
     public void update(String nom, String updatedNom){
+        if (nom.isEmpty()){
+            System.out.println("Missing the required field name");
+            return;
+        } else if (updatedNom.isEmpty()) {
+            System.out.println("Missing the required field updatedNom");
+        }
+
         Departement departement = new Departement(nom);
-        this.depatementRepo.update(departement, nom);
+        boolean updated = this.depatementRepo.update(departement, nom);
+
+        if(updated){
+            System.out.println("Department updated successfully!");
+        } else {
+            System.out.println("Failed to update department.");
+        }
     }
 
     public void getAll(){

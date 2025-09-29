@@ -28,6 +28,8 @@ public class Agent extends Personne {
         this.departement = departement;
     }
 
+    public Agent(){}
+
 
 
     public int getIdAgent() {

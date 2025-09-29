@@ -12,26 +12,18 @@ public class DepartementRepository implements IDepartementRepositoryInterface {
     private static DepartementDao departementDao = new DepartementDao();
 
     @Override
-    public void create(Departement departement) {
-        try{
-        departementDao.create(departement);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+    public boolean create(Departement departement) {
+       return departementDao.create(departement);
     }
 
     @Override
-    public void delete(String nom) {
-        try {
-            departementDao.delete(nom);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+    public boolean delete(String nom) {
+         return departementDao.delete(nom);
     }
 
     @Override
-    public void update(Departement departement, String updatedNom) {
-        departementDao.update(departement, updatedNom);
+    public boolean update(Departement departement, String updatedNom) {
+       return departementDao.update(departement, updatedNom);
     }
 
 

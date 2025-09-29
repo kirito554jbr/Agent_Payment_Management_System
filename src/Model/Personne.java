@@ -15,6 +15,8 @@ public abstract class Personne {
         this.motDePasse = motDePasse;
     }
 
+    public Personne(){}
+
 
 
     public String getNom() {

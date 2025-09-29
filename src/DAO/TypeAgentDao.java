@@ -9,9 +9,9 @@ public class TypeAgentDao {
 
 
     public static void main(String[] args) {
-        TypeAgentDao dao = new TypeAgentDao();
+//        TypeAgentDao dao = new TypeAgentDao();
 //        dao.create("TRAINEE");
-        dao.getById(2);
+//        dao.getById(2);
 //        dao.delete(7);
 //        dao.update(7,"hada_raymchi");
     }

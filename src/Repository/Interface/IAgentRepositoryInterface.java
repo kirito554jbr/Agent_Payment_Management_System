@@ -4,9 +4,10 @@ import Model.Agent;
 
 public interface IAgentRepositoryInterface {
 
-    String create(Agent agent);
-    String delete(String nom);
-    void update(Agent agent, Agent updatedAgent);
+    boolean create(Agent agent);
+    boolean delete(String nom);
+    boolean update(Agent agent, Agent updatedAgent);
 //    void findById();
     Agent findByName(String nom);
+    Agent findByEmail(String email);
 }

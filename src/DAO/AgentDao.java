@@ -11,7 +11,7 @@ public class AgentDao {
     public static Connection conn = MyJDBC.getConnection();
 
 
-    public String   create(Agent agent){
+    public boolean create(Agent agent){
             String sql = "INSERT INTO agent (nom , prenom, email, password, typeAgent , departement) VALUES (?, ?, ?, ?, ?, ?)";
 //
     try(PreparedStatement stmt = conn.prepareStatement(sql)){
@@ -24,35 +24,32 @@ public class AgentDao {
         stmt.setInt(6, agent.getDepartementId());
 
         int rows =  stmt.executeUpdate();
+        return rows > 0;
 //        System.out.println(rows + "agent inserted Succefully");
 
        }catch(SQLException e){
         e.printStackTrace();
-    };
-
-    return "agent " + agent.getNom() +" created successfully!";
-//       Statement stmt = conn.createStatement();
-//       ResultSet resultSet = stmt.executeQuery("SELECT * FROM users");
+        return false;
     }
+}
 
 
 
-    public String delete(String nom){
+    public boolean delete(String nom){
         String sql = "DELETE FROM agent WHERE nom = ?";
         try(PreparedStatement stmt = conn.prepareStatement(sql)){
 
             stmt.setString(1, nom);
-            stmt.executeUpdate();
-
+           int row = stmt.executeUpdate();
+            return row > 0;
 
         }catch (SQLException e){
             e.printStackTrace();
+            return false;
         }
-        return "agent " + nom +" deleted successfully!";
-
     }
 
-    public void update(Agent agent,Agent updatedAgent){
+    public boolean update(Agent agent,Agent updatedAgent){
         String sql = "UPDATE agent SET nom = ?, prenom = ?, email = ?, password = ?, typeAgent = ?, departement = ? WHERE idAgent = ?";
 
 
@@ -66,10 +63,12 @@ public class AgentDao {
             stmt.setInt(6,updatedAgent.getDepartementId());
             stmt.setInt(7,agent.getIdAgent());
 
-            stmt.executeUpdate();
+            int row = stmt.executeUpdate();
+            return row > 0;
 
         }catch(SQLException e){
             e.printStackTrace();
+            return false;
         }
 
     }
