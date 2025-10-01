@@ -6,6 +6,11 @@ import Model.Paiment;
 import Repository.Interface.IPaiementRepositoryInterface;
 import Repository.PaiementRepository;
 
+import java.lang.reflect.Type;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class PaimentService {
     private IPaiementRepositoryInterface paiementReapository ;
 
@@ -18,9 +23,13 @@ public class PaimentService {
 //        Departement departement = new Departement(3,"IT");
 //        Agent agent = new Agent(1, "Worker",departement,"aymen", "erraji", "aymen@gmail","0000");
 //        paimentService.create("Bonus",12000.00,"makitkhalessch kiyakhod li bra",agent);
-        paimentService.updateIsValide(true,3);
-        paimentService.getAll();
+//        paimentService.updateIsValide(true,3);
+//        paimentService.getAll();
+//        paimentService.FiltreParType("Bonus");
+        paimentService.FiltreParDate("2025-09-26");
+//        paimentService.FiltreParMontant(2000.00);
     }
+
 
     public boolean create(String typePaiement, Double montant, String motif, Agent agent) {
             // 1. Validate mandatory fields
@@ -77,12 +86,14 @@ public class PaimentService {
         }
     }
 
-    public void getAll(){
-        this.paiementReapository.getAll();
-
+    public void getAllAndPrint(){
         for (Paiment paiment : this.paiementReapository.getAll()){
             System.out.println(paiment);
         }
+    }
+
+    public List<Paiment> getAll(){
+        return this.paiementReapository.getAll();
     }
 
     public Paiment getById(int id){
@@ -106,4 +117,42 @@ public class PaimentService {
     public void updateIsValide(boolean isValide, int id){
         this.paiementReapository.updateisValide(isValide, id);
     }
+
+    public void FiltreParMontant(Double montant){
+        List<Paiment> paiments = getAll();
+
+        List<Paiment> paimentStream = paiments.stream()
+                .filter(obj -> obj.getMontant() == montant)
+                .collect(Collectors.toList());
+        for(Paiment paiment : paimentStream){
+            System.out.println(paiment);
+        }
+    }
+
+    public void FiltreParDate(String date){
+        List<Paiment> paiments = getAll();
+
+
+        LocalDate nDate = LocalDate.parse(date);
+
+        List<Paiment> paimentStream = paiments.stream()
+                .filter(obj -> obj.getDate().equals(nDate))
+                .collect(Collectors.toList());
+        for(Paiment paiment : paimentStream){
+            System.out.println(paiment);
+        }
+
+    }
+
+    public void FiltreParType(String type){
+        List<Paiment> paiments = getAll();
+
+        List<Paiment> paimentStream = paiments.stream()
+                .filter(obj -> obj.getTypePaiement().equals(type.toUpperCase()))
+                .collect(Collectors.toList());
+        for(Paiment paiment : paimentStream){
+            System.out.println(paiment);
+        }
+    }
+
 }

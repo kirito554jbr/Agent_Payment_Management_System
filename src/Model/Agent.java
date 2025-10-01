@@ -28,6 +28,7 @@ public class Agent extends Personne {
         this.departement = departement;
     }
 
+
     public Agent(){}
 
 
@@ -58,5 +59,19 @@ public class Agent extends Personne {
 
     public void setDepartement(Departement departement) {
         this.departement = departement;
+    }
+
+    @Override
+    public String toString() {
+        return "Agent{" +
+                "idAgent=" + idAgent +
+                ", typeAgent=" + typeAgent +
+                ", departement=" + departement +
+                ", paiments=" + paiments +
+                ", nom='" + nom + '\'' +
+                ", prenom='" + prenom + '\'' +
+                ", email='" + email + '\'' +
+                ", motDePasse='" + motDePasse + '\'' +
+                '}';
     }
 }

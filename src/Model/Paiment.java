@@ -105,6 +105,8 @@ public class Paiment {
         isValide = valide;
     }
 
+
+
     @Override
     public String toString() {
         return "Paiment{" +
@@ -114,6 +116,7 @@ public class Paiment {
                 ", date=" + date +
                 ", motif='" + motif + '\'' +
                 ", agent=" + agent +
+                ", isValide=" + isValide +
                 '}';
     }
 }

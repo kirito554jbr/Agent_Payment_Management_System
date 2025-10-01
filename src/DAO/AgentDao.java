@@ -2,8 +2,11 @@ package DAO;
 
 import Config.MyJDBC;
 import Model.Agent;
+import Model.Departement;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class AgentDao {
@@ -71,5 +74,50 @@ public class AgentDao {
             return false;
         }
 
+    }
+
+    public List<Agent> getAll(){
+        String sql = "SELECT a.*, d.* " +
+                "FROM agent a " +
+                "JOIN departement d ON a.departement = d.idDepartement";
+
+
+
+        List<Agent> agents = new ArrayList<>();
+        try (PreparedStatement stmt = conn.prepareStatement(sql)){
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()){
+                Departement departement = new Departement();
+                departement.setIdDepartement(rs.getInt("idDepartement"));
+                departement.setNom(rs.getString("d.nom"));
+
+                int idAgent = rs.getInt("idAgent");
+                String nom = rs.getString("nom");
+                String prenom = rs.getString("prenom");
+                String email = rs.getString("email");
+                String password = rs.getString("password");
+                String typeAgent = rs.getString("typeAgent");
+                agents.add(new Agent(idAgent, typeAgent, departement, nom, prenom, email, password));
+            }
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return agents;
+    }
+
+    public Agent getById(int id){
+        String sql = "SELECT a.*, d.* " +
+                "FROM agent a " +
+                "JOIN departement d ON a.departement = d.idDepartement";
+        Agent agent = new Agent();
+        try(PreparedStatement stmt = conn.prepareStatement(sql)){
+            stmt.setInt(1,id);
+           ResultSet rs = stmt.executeQuery();
+
+//            agent.g
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 }

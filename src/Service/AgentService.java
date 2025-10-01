@@ -1,9 +1,9 @@
 package Service;
 
 
-//import Repository.Interface.*;
 import Model.Agent;
 import Model.Departement;
+import Model.Paiment;
 import Repository.AgentRepository;
 import Repository.DepartementRepository;
 import Repository.Interface.IAgentRepositoryInterface;
@@ -11,50 +11,46 @@ import Repository.Interface.IDepartementRepositoryInterface;
 import Repository.Interface.ITypeAgentRepositoryInterface;
 import Model.TypeAgent;
 import Repository.TypeAgentRepoitory;
+import Service.Interfaces.IAgentService;
 
-public class AgentService {
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+public class AgentService implements IAgentService {
 
     private ITypeAgentRepositoryInterface typeAgent;
     private IDepartementRepositoryInterface departementRepository;
     private IAgentRepositoryInterface agent;
     private Departement departement;
+    private PaimentService paimentService;
 
 
     public static void main(String[] args) {
-        AgentService agentService = new AgentService();
+//        AgentService agentService = new AgentService();
 //        agentService.create("IT","Worker","ahmed","foullan","ahmed@gmail.com","0000");
 //        agentService.create("IT","DEPARTMENT_MANAGER","MR","president","admin@gmail.com","0000");
-            agentService.logIn("aymen@gmail.com","0000");
+//            agentService.logIn("aymen@gmail.com","0000");
+//        agentService.getAll();
+//        agentService.PaiementHistorique(1);
+//        agentService.getById(1);
 //        agentService.delete("ahmed");
 //        agentService.update("ahmed","IT","Worker",null,null,"admin123@gmail.com","1234");
     }
 
-    public AgentService() {
-        this.typeAgent = new TypeAgentRepoitory();
-        this.departementRepository = new DepartementRepository();
-        this.agent = new AgentRepository();
-        this.departement = new Departement();
-    }
+    public AgentService(DepartementRepository departementRepository,IAgentRepositoryInterface agent,Departement departement, PaimentService paimentService) {
 
-    public boolean logIn(String email, String password){
-        Agent agent = this.agent.findByEmail(email);
-
-        if(agent == null){
-            System.out.println("Email not found");
-            return false;
-        }
-
-
-        if(!agent.getMotDePasse().equals(password)){
-            System.out.println("Password is false");
-            return false;
-        }
-
-        return true;
+        this.departementRepository = departementRepository;
+        this.agent = agent;
+        this.departement = departement;
+        this.paimentService = paimentService;
     }
 
 
 
+
+    @Override
     public boolean create(String departementName,  String typeAgent, String nom, String prenom, String email, String password){
 
         if (nom == null || nom.isEmpty() ||
@@ -111,7 +107,7 @@ public class AgentService {
             return false;
         }
     }
-
+    @Override
    public boolean delete(String nom){
 
         if (nom == null || nom.isEmpty()){
@@ -138,6 +134,7 @@ public class AgentService {
    }
 
    //add condition when you call this method to enter null if there is no update on that specific element
+   @Override
     public boolean update(String nom, String updatedDepartemenet,  String updatedTypeAgent, String updatedNom, String updatedPrenom, String updatedEmail, String updatedPassword){
         Agent oldAgent = this.agent.findByName(nom);
 
@@ -213,6 +210,49 @@ public class AgentService {
         }
 //        System.out.println(newAgent);
     }
+    @Override
+    public List<Agent> getAll(){
+        return this.agent.getAll();
+
+//        for (Agent agent : this.agent.getAll()){
+//            System.out.println(agent);
+//        }
+    }
+    @Override
+    public void getById(int id){
+        List<Agent> agents = getAll();
+
+        List<Agent> agentStream = agents.stream()
+                .filter(obj -> obj.getIdAgent() == id)
+                .collect(Collectors.toList());
+
+        for(Agent agent : agentStream){
+            System.out.println(agent);
+        }
+    }
+
+    @Override
+    public void PaiementHistorique(int id){
+        List<Paiment> paiments = paimentService.getAll();
+
+        List<Paiment> paimentStream = paiments.stream()
+                .filter(obj -> obj.getAgentId() == id)
+                .collect(Collectors.toList());
+
+        for(Paiment paiment : paimentStream){
+            System.out.println(paiment);
+        }
+
+
+    }
+
+//    public void Totale(int id){
+//        Agent agent = PrintById(id);
+//
+//
+//
+//    }
+
 
 
 }

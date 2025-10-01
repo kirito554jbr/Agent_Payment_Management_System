@@ -3,6 +3,7 @@ package Repository;
 import DAO.AgentDao;
 import Config.MyJDBC;
 import java.sql.*;
+import java.util.List;
 
 import DAO.DepartementDao;
 import DAO.TypeAgentDao;
@@ -37,11 +38,15 @@ public class AgentRepository implements IAgentRepositoryInterface {
     }
 
 
+    public List<Agent> getAll(){
+        return this.agentDao.getAll();
+    }
+
 //    public void findById(){}
 
     public Agent findByName(String name){
         String sql = "select * from agent where nom = ?";
-        Agent agent = new Agent(0,"Worker", null,null,null,null,null);
+        Agent agent = new Agent();
         try(Connection conn = MyJDBC.getConnection();
             PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, name);
