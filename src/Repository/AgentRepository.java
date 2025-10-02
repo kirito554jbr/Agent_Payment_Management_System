@@ -33,8 +33,8 @@ public class AgentRepository implements IAgentRepositoryInterface {
     public boolean delete(String nom){return this.agentDao.delete(nom);}
 
     @Override
-    public boolean update(Agent agent, Agent updatedAgent){
-        return this.agentDao.update(agent, updatedAgent);
+    public boolean update(Agent agent){
+        return this.agentDao.update(agent);
     }
 
     @Override

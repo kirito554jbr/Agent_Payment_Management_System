@@ -3,6 +3,7 @@ package View;
 import Controller.AgentController;
 import Controller.DepartmentController;
 import Controller.PaiementController;
+import Model.Agent;
 
 import java.util.Scanner;
 
@@ -20,8 +21,8 @@ public class ResponsableMenu {
 
 
 
-    public void displayMsgResponsable() {
-        Scanner scanner = new Scanner(System.in);
+    public void displayMsgResponsable(Scanner scanner, Agent agent) {
+//        Scanner scanner = new Scanner(System.in);
         int choice;
 
         do {
@@ -40,7 +41,6 @@ public class ResponsableMenu {
 
             switch (choice) {
                 case 1:
-                    System.out.println("👤 Ajout d’un nouvel agent...");
                     scanner.nextLine(); // consume leftover newline from previous nextInt()
                     System.out.println("👤 Ajout d’un nouvel agent...");
 
@@ -66,12 +66,39 @@ public class ResponsableMenu {
                     this.agentController.create(departementName, typeAgent, nom, prenom, email, password);
                     break;
                 case 2:
+                    scanner.nextLine();
                     System.out.println("✏️ Modification d’un agent...");
-                    // TODO: updateAgent();
+
+                    System.out.println("🧑‍💼 old Agent name");
+                    String oldName = scanner.nextLine();
+
+                    System.out.print("🏢 Département : ");
+                    String updatedDepartemenet = scanner.nextLine();
+
+                    System.out.print("🧑‍💼 Type d’agent (ex: ADMIN, AGENT, RESPONSABLE) : ");
+                    String updatedTypeAgent = scanner.nextLine();
+
+                    System.out.print("👤 Nom : ");
+                    String updatedNom = scanner.nextLine();
+
+                    System.out.print("👤 Prénom : ");
+                    String updatedPrenom = scanner.nextLine();
+
+                    System.out.print("📧 Email : ");
+                    String updatedEmail = scanner.nextLine();
+
+                    System.out.print("🔑 Mot de passe : ");
+                    String updatedPassword = scanner.nextLine();
+
+                    this.agentController.update(oldName, updatedDepartemenet, updatedTypeAgent, updatedNom, updatedPrenom, updatedEmail, updatedPassword);
                     break;
                 case 3:
+                    scanner.nextLine();
                     System.out.println("🗑️ Suppression d’un agent...");
-                    // TODO: deleteAgent();
+
+                    System.out.println("🚶 Agent name");
+                    String NameToDelete = scanner.nextLine();
+                    this.agentController.delete(NameToDelete);
                     break;
                 case 4:
                     System.out.println("🏢 Affectation d’un agent à un département...");

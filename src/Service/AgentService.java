@@ -124,7 +124,7 @@ public class AgentService implements IAgentService {
        boolean deleted = this.agent.delete(nom);
 
        if (deleted) {
-           System.out.println("Agent deleted successfully: " + nom);
+           System.out.println(nom + " is no more with us 😔");
            return true;
        } else {
            System.out.println("Failed to delete agent: " + nom);
@@ -136,81 +136,65 @@ public class AgentService implements IAgentService {
 
    //add condition when you call this method to enter null if there is no update on that specific element
    @Override
-    public boolean update(String nom, String updatedDepartemenet,  String updatedTypeAgent, String updatedNom, String updatedPrenom, String updatedEmail, String updatedPassword){
-        Agent oldAgent = this.agent.findByName(nom);
+   public boolean update(String nom, String updatedDepartement, String updatedTypeAgent,
+                         String updatedNom, String updatedPrenom, String updatedEmail, String updatedPassword) {
 
-        if (oldAgent == null) {
-            System.out.println(" No agent found with name: " + nom);
-            return false;
-        }
-//        System.out.println(oldAgent);
+       Agent oldAgent = this.agent.findByName(nom);
+       if (oldAgent == null) {
+           System.out.println("No agent found with name: " + nom);
+           return false;
+       }
 
-        Agent newAgent = new Agent();
-        if(updatedDepartemenet == null) {
-            newAgent.setDepartement(oldAgent.getDepartement());
-        }else {
+       // Department update
+       if (updatedDepartement != null) {
+           Departement newDepartment = this.departementRepository.findByName(updatedDepartement);
+           if (newDepartment == null) {
+               System.out.println("Department not found: " + updatedDepartement);
+               return false;
+           }
+           oldAgent.setDepartement(newDepartment);
+       }
 
-                Departement newDepartment = this.departementRepository.findByName(updatedDepartemenet);
-            if (newDepartment == null) {
-                System.out.println("Department not found: " + updatedDepartemenet);
-                return false;
-            }
-                newAgent.setDepartement(newDepartment);
-//            }
-        }
-        if(updatedNom == null){
-            newAgent.setNom(oldAgent.getNom());
-        }else{
-            newAgent.setNom(updatedNom);
-        }
+       // Nom & Prenom
+       oldAgent.setNom(updatedNom == null ? oldAgent.getNom() : updatedNom);
+       oldAgent.setPrenom(updatedPrenom == null ? oldAgent.getPrenom() : updatedPrenom);
 
-        newAgent.setNom(updatedNom == null ? oldAgent.getNom() : updatedNom);
-        newAgent.setPrenom(updatedPrenom == null ? oldAgent.getPrenom() : updatedPrenom);
+       // Email (with uniqueness check)
+       if (updatedEmail != null) {
+           Agent existing = this.agent.findByEmail(updatedEmail);
+           if (existing != null && !existing.equals(oldAgent)) {
+               System.out.println("Another agent with this email already exists.");
+               return false;
+           }
+           oldAgent.setEmail(updatedEmail);
+       }
 
-//        newAgent.setEmail(updatedEmail == null ? oldAgent.getEmail() : updatedEmail);
-        //---------------------------------Email UPDATE--------------------------------------------
-//        if (this.agent.findByEmail(email) != null) {
-//            System.out.println("An agent with this email already exists.");
-//            return false;
-//        }
-        if (updatedEmail != null) {
-//            System.out.println("-------------------------");
-            if (this.agent.findByEmail(updatedEmail) != null) {
-                System.out.println("Another agent with this email already exists.");
-                return false;
-            }
-            newAgent.setEmail(updatedEmail);
-        } else {
-            newAgent.setEmail(oldAgent.getEmail());
-        }
+       // Password
+       oldAgent.setMotDePasse(updatedPassword == null ? oldAgent.getMotDePasse() : updatedPassword);
 
+       // TypeAgent
+       String finalType = updatedTypeAgent == null ? oldAgent.getTypeAgent() : updatedTypeAgent;
+       if ("DEPARTMENT_MANAGER".equalsIgnoreCase(finalType)) {
+           Departement dept = oldAgent.getDepartement();
+           if (dept.getResponsable() != null && !dept.getResponsable().equals(oldAgent)) {
+               System.out.println("This department already has a manager.");
+               return false;
+           }
+           dept.setResponsable(oldAgent);
+       }
+       oldAgent.setTypeAgent(finalType);
 
-        newAgent.setMotDePasse(updatedPassword == null ? oldAgent.getMotDePasse() : updatedPassword);
-//---------------------------------------------Type UPDATE-------------------------------------------------
-//        newAgent.setTypeAgent(updatedTypeAgent == null ? oldAgent.getTypeAgent() : updatedTypeAgent);
-        String finalType = updatedTypeAgent == null ? oldAgent.getTypeAgent() : updatedTypeAgent;
-        if ("DEPARTMENT_MANAGER".equalsIgnoreCase(finalType)) {
-            Departement dept = newAgent.getDepartement();
-            if (dept.getResponsable() != null && !dept.getResponsable().equals(oldAgent)) {
-                System.out.println("This department already has a manager.");
-                return false;
-            }
-            dept.setResponsable(newAgent);
-        }
-        newAgent.setTypeAgent(finalType);
+       // Persist changes
+       boolean updated = this.agent.update(oldAgent);
+       if (updated) {
+           System.out.println("Agent updated successfully: " + oldAgent.getNom());
+           return true;
+       } else {
+           System.out.println("Failed to update agent: " + oldAgent.getNom());
+           return false;
+       }
+   }
 
-
-//        this.agent.update(oldAgent,newAgent);
-        boolean updated = this.agent.update(oldAgent, newAgent);
-        if (updated) {
-            System.out.println("Agent updated successfully: " + newAgent.getNom());
-            return true;
-        } else {
-            System.out.println("Failed to update agent: " + oldAgent.getNom());
-            return false;
-        }
-//        System.out.println(newAgent);
-    }
     @Override
     public List<Agent> getAll(){
         return this.agent.getAll();

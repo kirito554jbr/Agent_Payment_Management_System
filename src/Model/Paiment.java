@@ -13,7 +13,7 @@ public class Paiment {
     private boolean isValide;
 
 
-    public Paiment(int idPaiement, String typePaiement, double montant, String motif, Agent agent, boolean isValide) {
+    public Paiment(int idPaiement, String typePaiement, double montant, LocalDate date, String motif, Agent agent, boolean isValide) {
         this.idPaiement = idPaiement;
         if(typePaiement == null) {
             this.typePaiement = null;
@@ -21,20 +21,20 @@ public class Paiment {
             this.typePaiement = TypePaiement.valueOf(typePaiement.toUpperCase());
         }
         this.montant = montant;
-        this.date = LocalDate.now();
+        this.date = date;
         this.motif = motif;
         this.agent = agent;
         this.isValide = isValide;
     }
 
-    public Paiment(String typePaiement, double montant, String motif, Agent agent) {
+    public Paiment(String typePaiement, double montant,LocalDate date, String motif, Agent agent) {
         if(typePaiement == null) {
             this.typePaiement = null;
         }else {
             this.typePaiement = TypePaiement.valueOf(typePaiement.toUpperCase());
         }
         this.montant = montant;
-        this.date = LocalDate.now();
+        this.date = date;
         this.motif = motif;
         this.agent = agent;
         this.isValide = false;

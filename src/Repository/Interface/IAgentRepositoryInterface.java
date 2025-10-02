@@ -8,7 +8,7 @@ public interface IAgentRepositoryInterface {
 
     boolean create(Agent agent);
     boolean delete(String nom);
-    boolean update(Agent agent, Agent updatedAgent);
+    boolean update(Agent agent);
     List<Agent> getAll();
     Agent getById(int id);
     Agent findByName(String nom);

@@ -95,7 +95,7 @@ public class PaiementDao {
                 String motif = rs.getString("motif");
                 boolean isValide = rs.getBoolean("isValide");
 
-                Paiment paiement = new Paiment(idPaiement,typePaiement,montant,motif,agent,isValide);
+                Paiment paiement = new Paiment(idPaiement,typePaiement,montant, date, motif,agent,isValide);
 
                 paiements.add(paiement);
             }

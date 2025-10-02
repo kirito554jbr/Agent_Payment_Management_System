@@ -48,6 +48,14 @@ public class AgentController {
             this.agentService.create(departementName, typeAgent,nom, prenom, email, password);
         }
 
+            public void update(String nom, String updatedDepartemenet,  String updatedTypeAgent, String updatedNom, String updatedPrenom, String updatedEmail, String updatedPassword){
+            this.agentService.update(nom, updatedDepartemenet, updatedTypeAgent, updatedNom, updatedPrenom, updatedEmail, updatedPassword);
+        }
+
+        public void delete(String nom){
+            this.agentService.delete(nom);
+        }
+
 //======================RESPONSABLE MENU================
 
 

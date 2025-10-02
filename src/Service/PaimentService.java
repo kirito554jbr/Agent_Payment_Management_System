@@ -49,7 +49,7 @@ public class PaimentService implements IPaiementService {
                 System.out.println("A valid agent must be associated with the payment.");
                 return false;
             }
-        Paiment paiment = new Paiment(typePaiement.toUpperCase(), montant, motif, agent);
+        Paiment paiment = new Paiment(typePaiement.toUpperCase(), montant,LocalDate.now(), motif, agent);
         boolean created = this.paiementReapository.create(paiment);
 
         if (created) {

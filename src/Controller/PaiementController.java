@@ -7,7 +7,7 @@ public class PaiementController {
 
     private IPaiementService paiementService;
 
-    public PaiementController(PaimentService paimentService){
+    public PaiementController(PaimentService paiementService){
         this.paiementService = paiementService;
     }
 

@@ -2,6 +2,7 @@ package View;
 
 import Controller.AgentController;
 import Controller.AuthController;
+import Controller.DepartmentController;
 import Controller.PaiementController;
 import Model.Agent;
 import Model.Departement;
@@ -17,10 +18,12 @@ public class Auth {
 
     private AuthController authController;
     private MenuAgent menuAgent;
+    private ResponsableMenu menuResponsable;
 
-    public Auth(AuthController authController,MenuAgent menuAgent) {
+    public Auth(AuthController authController,MenuAgent menuAgent,ResponsableMenu menuResponsable) {
         this.authController = authController;
         this.menuAgent = menuAgent;
+        this.menuResponsable = menuResponsable;
     }
 
     public void start() {
@@ -45,7 +48,7 @@ public class Auth {
                 if(isAuthenticated.getTypeAgent() == "WORKER" || isAuthenticated.getTypeAgent() == "TRAINEE"){
                 this.menuAgent.displayMsgAgent(scanner, isAuthenticated); // lancer le menu
                 } else if (isAuthenticated.getTypeAgent() == "DEPARTMENT_MANAGER") {
-                    //this.menuResponsable.diplayResponsable(scanner, isAuthenticated);
+                    this.menuResponsable.displayMsgResponsable(scanner, isAuthenticated);
                 }
             } else {
                 System.out.println("❌ Identifiants invalides. Veuillez réessayer.");
@@ -53,7 +56,7 @@ public class Auth {
 
     }
     public static void main(String[] args) {
-        Auth auth = new Auth(new AuthController(new AuthService(new AgentRepository())), new MenuAgent(new AgentController(new AgentService(new DepartementRepository(), new AgentRepository(), new Departement(),new PaimentService())), new PaiementController(new PaimentService())));
+        Auth auth = new Auth(new AuthController(new AuthService(new AgentRepository())), new MenuAgent(new AgentController(new AgentService(new DepartementRepository(), new AgentRepository(), new Departement(),new PaimentService())), new PaiementController(new PaimentService())), new ResponsableMenu(new AgentController(new AgentService(new DepartementRepository(), new AgentRepository(), new Departement(),new PaimentService())), new PaiementController(new PaimentService()), new DepartmentController()));
         auth.start();
     }
 }
