@@ -3,28 +3,30 @@ package Service;
 import Model.Agent;
 import Repository.AgentRepository;
 import Repository.Interface.IAgentRepositoryInterface;
+import Service.Interfaces.IAuthService;
 
-public class AuthService {
-    private IAgentRepositoryInterface agent;
+public class AuthService implements IAuthService {
+    private IAgentRepositoryInterface agentRepository;
 
-    public AuthService(){
-        this.agent = new AgentRepository();
+    public AuthService(AgentRepository agentRepository){
+        this.agentRepository = agentRepository;
     }
 
-    public boolean logIn(String email, String password){
-        Agent agent = this.agent.findByEmail(email);
+    @Override
+    public Agent logIn(String email, String password){
+        Agent agent = this.agentRepository.findByEmail(email);
 
         if(agent == null){
             System.out.println("Email not found");
-            return false;
+            return null;
         }
 
 
         if(!agent.getMotDePasse().equals(password)){
             System.out.println("Password is false");
-            return false;
+            return null;
         }
 
-        return true;
+        return agent;
     }
 }

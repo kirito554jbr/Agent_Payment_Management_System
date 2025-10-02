@@ -1,17 +1,17 @@
 package Service;
 
 import Model.Agent;
-import Model.Departement;
 import Model.Paiment;
 import Repository.Interface.IPaiementRepositoryInterface;
 import Repository.PaiementRepository;
+import Service.Interfaces.IPaiementService;
 
-import java.lang.reflect.Type;
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class PaimentService {
+public class PaimentService implements IPaiementService {
     private IPaiementRepositoryInterface paiementReapository ;
 
     public PaimentService() {
@@ -19,18 +19,18 @@ public class PaimentService {
     }
 
     public static void main(String[] args) {
-        PaimentService paimentService = new PaimentService();
+//        PaimentService paimentService = new PaimentService();
 //        Departement departement = new Departement(3,"IT");
 //        Agent agent = new Agent(1, "Worker",departement,"aymen", "erraji", "aymen@gmail","0000");
 //        paimentService.create("Bonus",12000.00,"makitkhalessch kiyakhod li bra",agent);
 //        paimentService.updateIsValide(true,3);
 //        paimentService.getAll();
 //        paimentService.FiltreParType("Bonus");
-        paimentService.FiltreParDate("2025-09-26");
+//        paimentService.FiltreParDate("2025-09-26");
 //        paimentService.FiltreParMontant(2000.00);
     }
 
-
+    @Override
     public boolean create(String typePaiement, Double montant, String motif, Agent agent) {
             // 1. Validate mandatory fields
             if (typePaiement == null || typePaiement.isEmpty()) {
@@ -61,7 +61,7 @@ public class PaimentService {
         }
         }
 
-
+    @Override
     public boolean delete(int id){
 
         if (id <= 0) {
@@ -85,17 +85,17 @@ public class PaimentService {
             return false;
         }
     }
-
+    @Override
     public void getAllAndPrint(){
         for (Paiment paiment : this.paiementReapository.getAll()){
             System.out.println(paiment);
         }
     }
-
+    @Override
     public List<Paiment> getAll(){
         return this.paiementReapository.getAll();
     }
-
+    @Override
     public Paiment getById(int id){
         if (id <= 0) {
             System.out.println("Invalid payment ID.");
@@ -113,46 +113,69 @@ public class PaimentService {
         System.out.println("Payment retrieved successfully (ID: " + id + ")");
         return paiement;
     }
-
+    @Override
     public void updateIsValide(boolean isValide, int id){
         this.paiementReapository.updateisValide(isValide, id);
     }
-
-    public void FiltreParMontant(Double montant){
+    @Override
+    public void FiltreParMontant(double min, double max, int id){
         List<Paiment> paiments = getAll();
 
         List<Paiment> paimentStream = paiments.stream()
-                .filter(obj -> obj.getMontant() == montant)
+                .filter(obj -> obj.getMontant() >= min && obj.getMontant() <= max && obj.getAgent().getIdAgent() == id)
                 .collect(Collectors.toList());
         for(Paiment paiment : paimentStream){
             System.out.println(paiment);
         }
     }
-
-    public void FiltreParDate(String date){
+    @Override
+    public void FiltreParDate(String date , int id){
         List<Paiment> paiments = getAll();
-
 
         LocalDate nDate = LocalDate.parse(date);
 
         List<Paiment> paimentStream = paiments.stream()
-                .filter(obj -> obj.getDate().equals(nDate))
-                .collect(Collectors.toList());
-        for(Paiment paiment : paimentStream){
-            System.out.println(paiment);
+                .filter(obj -> obj.getDate().equals(nDate) && obj.getAgent().getIdAgent() == id)
+                .sorted(Comparator.comparing(Paiment::getDate))
+                .toList();
+
+        if (paimentStream.isEmpty()) {
+            System.out.println("No Paiement found for date: " + date);
+        } else {
+            for (Paiment paiment : paimentStream) {
+                System.out.println(
+                        "Type de Paiement: " + paiment.getTypePaiement() +
+                                " || Montant: " + paiment.getMontant() +
+                                " || Date de Paiement: " + paiment.getDate() +
+                                " || Motif: " + paiment.getMotif() +
+                                " || Valide: " + paiment.isValide()
+                );
+            }
         }
 
     }
-
-    public void FiltreParType(String type){
+    @Override
+    public void FiltreParType(String type, int id){
         List<Paiment> paiments = getAll();
 
         List<Paiment> paimentStream = paiments.stream()
-                .filter(obj -> obj.getTypePaiement().equals(type.toUpperCase()))
+                .filter(obj -> obj.getTypePaiement().equals(type.toUpperCase()) && obj.getAgent().getIdAgent() == id)
                 .collect(Collectors.toList());
-        for(Paiment paiment : paimentStream){
-            System.out.println(paiment);
+
+        if (paimentStream.isEmpty()) {
+            System.out.println("No " + type + " Paiement found");
+        } else {
+            for (Paiment paiment : paimentStream) {
+                System.out.println(
+                        "Type de Paiement: " + paiment.getTypePaiement() +
+                                " || Montant: " + paiment.getMontant() +
+                                " || Date de Paiement: " + paiment.getDate() +
+                                " || Motif: " + paiment.getMotif() +
+                                " || Valide: " + paiment.isValide()
+                );
+            }
         }
+
     }
 
 }

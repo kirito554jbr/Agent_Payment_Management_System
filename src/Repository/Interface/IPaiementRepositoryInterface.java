@@ -11,4 +11,5 @@ public interface IPaiementRepositoryInterface {
     Paiment getById(int id);
     boolean delete(int id);
     boolean updateisValide(boolean isValide, int id);
+
 }

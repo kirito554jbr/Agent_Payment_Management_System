@@ -109,15 +109,28 @@ public class AgentDao {
     public Agent getById(int id){
         String sql = "SELECT a.*, d.* " +
                 "FROM agent a " +
-                "JOIN departement d ON a.departement = d.idDepartement";
+                "JOIN departement d ON a.departement = d.idDepartement WHERE idAgent = ?";
         Agent agent = new Agent();
         try(PreparedStatement stmt = conn.prepareStatement(sql)){
             stmt.setInt(1,id);
            ResultSet rs = stmt.executeQuery();
 
-//            agent.g
+            if (rs.next()){
+                Departement departement = new Departement();
+                departement.setIdDepartement(rs.getInt("idDepartement"));
+                departement.setNom(rs.getString("d.nom"));
+
+                agent.setIdAgent(rs.getInt("idAgent"));
+                agent.setNom(rs.getString("nom"));
+                agent.setPrenom(rs.getString("prenom"));
+                agent.setEmail(rs.getString("email"));
+                agent.setMotDePasse(rs.getString("password"));
+                agent.setTypeAgent(rs.getString("typeAgent"));
+                agent.setDepartement(departement);
+            }
         }catch (SQLException e){
             e.printStackTrace();
         }
+        return agent;
     }
 }

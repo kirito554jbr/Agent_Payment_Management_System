@@ -9,8 +9,6 @@ import Repository.DepartementRepository;
 import Repository.Interface.IAgentRepositoryInterface;
 import Repository.Interface.IDepartementRepositoryInterface;
 import Repository.Interface.ITypeAgentRepositoryInterface;
-import Model.TypeAgent;
-import Repository.TypeAgentRepoitory;
 import Service.Interfaces.IAgentService;
 
 import java.util.ArrayList;
@@ -28,7 +26,9 @@ public class AgentService implements IAgentService {
 
 
     public static void main(String[] args) {
-//        AgentService agentService = new AgentService();
+        AgentService agentService = new AgentService(new DepartementRepository(), new AgentRepository(), new Departement(), new PaimentService());
+//        Agent agent = new Agent();
+        agentService.Totale(1);
 //        agentService.create("IT","Worker","ahmed","foullan","ahmed@gmail.com","0000");
 //        agentService.create("IT","DEPARTMENT_MANAGER","MR","president","admin@gmail.com","0000");
 //            agentService.logIn("aymen@gmail.com","0000");
@@ -39,13 +39,14 @@ public class AgentService implements IAgentService {
 //        agentService.update("ahmed","IT","Worker",null,null,"admin123@gmail.com","1234");
     }
 
-    public AgentService(DepartementRepository departementRepository,IAgentRepositoryInterface agent,Departement departement, PaimentService paimentService) {
+    public AgentService(DepartementRepository departementRepository, AgentRepository agent, Departement departement, PaimentService paimentService) {
 
         this.departementRepository = departementRepository;
         this.agent = agent;
         this.departement = departement;
         this.paimentService = paimentService;
     }
+//    public AgentService(){}
 
 
 
@@ -219,7 +220,11 @@ public class AgentService implements IAgentService {
 //        }
     }
     @Override
-    public void getById(int id){
+    public Agent getById(int id){
+        return this.agent.getById(id);
+    }
+
+    public void PrintById(int id){
         List<Agent> agents = getAll();
 
         List<Agent> agentStream = agents.stream()
@@ -240,18 +245,25 @@ public class AgentService implements IAgentService {
                 .collect(Collectors.toList());
 
         for(Paiment paiment : paimentStream){
-            System.out.println(paiment);
+            System.out.println("Type de Paiement:" + paiment.getTypePaiement() + "|| Motant:" + paiment.getMontant() + "|| date de Paiement:" + paiment.getDate() + "|| Motif:" + paiment.getMotif() + "|| Valide:" + paiment.isValide());
         }
 
 
     }
+    @Override
+    public void Totale(int id){
+       List<Paiment> paiments = this.paimentService.getAll();
+        double totale = 0;
+       List<Paiment> paimentStream = paiments.stream()
+               .filter(obj -> obj.getAgent().getIdAgent() == id && obj.isValide())
+               .toList();
 
-//    public void Totale(int id){
-//        Agent agent = PrintById(id);
-//
-//
-//
-//    }
+        for(Paiment paiment : paimentStream){
+            totale += paiment.getMontant();
+        }
+        System.out.println(totale);
+
+    }
 
 
 

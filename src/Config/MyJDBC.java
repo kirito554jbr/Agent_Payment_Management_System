@@ -12,7 +12,7 @@ public class MyJDBC {
     private static final String PASSWORD = "root"; // change to your MySQL password
 
 
-    public static MyJDBC getInstance() {
+    private static MyJDBC getInstance() {
         if (instance == null) {
             instance = new MyJDBC();  // create only once
         }

@@ -9,7 +9,8 @@ public interface IAgentService {
     boolean delete(String nom);
     boolean update(String nom, String updatedDepartemenet,  String updatedTypeAgent, String updatedNom, String updatedPrenom, String updatedEmail, String updatedPassword);
     List<Agent> getAll();
-    public void getById(int id);
+    Agent getById(int id);
     void PaiementHistorique(int id);
-
+    void Totale(int id);
+    void PrintById(int id);
 }

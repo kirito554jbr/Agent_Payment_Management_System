@@ -24,26 +24,31 @@ public class AgentRepository implements IAgentRepositoryInterface {
         departementRepo = new DepartementRepository();
         typeAgent = new TypeAgentRepoitory();
     }
-
+    @Override
     public boolean create(Agent agent){
         return this.agentDao.create(agent);
     }
 
-
+    @Override
     public boolean delete(String nom){return this.agentDao.delete(nom);}
 
-
+    @Override
     public boolean update(Agent agent, Agent updatedAgent){
         return this.agentDao.update(agent, updatedAgent);
     }
 
-
+    @Override
     public List<Agent> getAll(){
         return this.agentDao.getAll();
     }
 
-//    public void findById(){}
+    @Override
+    public Agent getById(int id) {
+        return this.agentDao.getById(id);
+    }
 
+    //    public void findById(){}
+    @Override
     public Agent findByName(String name){
         String sql = "select * from agent where nom = ?";
         Agent agent = new Agent();
@@ -77,7 +82,7 @@ public class AgentRepository implements IAgentRepositoryInterface {
         }
         return agent;
     }
-
+    @Override
     public Agent findByEmail(String email){
         String sql = "SELECT * FROM agent WHERE email = ?";
         Agent agent = new Agent();

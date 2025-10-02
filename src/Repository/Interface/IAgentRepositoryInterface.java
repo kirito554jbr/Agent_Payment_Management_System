@@ -10,7 +10,7 @@ public interface IAgentRepositoryInterface {
     boolean delete(String nom);
     boolean update(Agent agent, Agent updatedAgent);
     List<Agent> getAll();
-//    void findById();
+    Agent getById(int id);
     Agent findByName(String nom);
     Agent findByEmail(String email);
 }

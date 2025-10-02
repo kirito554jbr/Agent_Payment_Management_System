@@ -3,10 +3,11 @@ package Service;
 import Model.Departement;
 import Repository.DepartementRepository;
 import Repository.Interface.IDepartementRepositoryInterface;
+import Service.Interfaces.IDepartementService;
 
 import java.util.List;
 
-public class DepartementService {
+public class DepartementService implements IDepartementService {
 
     private final IDepartementRepositoryInterface depatementRepo;
 
@@ -14,6 +15,7 @@ public class DepartementService {
         this.depatementRepo = new DepartementRepository();
     }
 
+        @Override
     public void create(String nom){
 
         if (nom.isEmpty()){
@@ -29,7 +31,7 @@ public class DepartementService {
             System.out.println("Failed to create department.");
         }
     }
-
+    @Override
     public void delete(String nom){
         if (nom.isEmpty()){
             System.out.println("Missing required field");
@@ -43,7 +45,7 @@ public class DepartementService {
             System.out.println("Failed to delete department.");
         }
     }
-
+    @Override
     public void update(String nom, String updatedNom){
         if (nom.isEmpty()){
             System.out.println("Missing the required field name");
@@ -61,7 +63,7 @@ public class DepartementService {
             System.out.println("Failed to update department.");
         }
     }
-
+    @Override
     public void getAll(){
         List<Departement> departements = this.depatementRepo.getdAll();
         for (Departement departement : departements) {
