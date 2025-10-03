@@ -1,37 +1,39 @@
 package Service;
 
 import Model.Agent;
+import Model.Departement;
 import Model.Paiment;
 import Repository.Interface.IPaiementRepositoryInterface;
 import Repository.PaiementRepository;
+import Service.Interfaces.IAgentService;
+import Service.Interfaces.IDepartementService;
 import Service.Interfaces.IPaiementService;
 
 import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class PaimentService implements IPaiementService {
     private IPaiementRepositoryInterface paiementReapository ;
+    private IDepartementService departementService;
+    private IAgentService agentService;
 
-    public PaimentService() {
-        this.paiementReapository = new PaiementRepository();
-    }
-
-    public static void main(String[] args) {
-//        PaimentService paimentService = new PaimentService();
-//        Departement departement = new Departement(3,"IT");
-//        Agent agent = new Agent(1, "Worker",departement,"aymen", "erraji", "aymen@gmail","0000");
-//        paimentService.create("Bonus",12000.00,"makitkhalessch kiyakhod li bra",agent);
-//        paimentService.updateIsValide(true,3);
-//        paimentService.getAll();
-//        paimentService.FiltreParType("Bonus");
-//        paimentService.FiltreParDate("2025-09-26");
-//        paimentService.FiltreParMontant(2000.00);
+    public PaimentService(PaiementRepository paiementReapository, DepartementService departementService, AgentService agentService) {
+//        this.paiementReapository = new PaiementRepository();
+//        this.departementService = new DepartementService();
+//        this.agentService = new AgentService();
+        this.paiementReapository = paiementReapository;
+        this.departementService = departementService;
+        this.agentService = agentService;
     }
 
     @Override
-    public boolean create(String typePaiement, Double montant, String motif, Agent agent) {
+    public boolean create(String typePaiement, Double montant, String motif, String agentName) {
+
+            Agent agent = this.agentService.finByName(agentName);
+
             // 1. Validate mandatory fields
             if (typePaiement == null || typePaiement.isEmpty()) {
                 System.out.println("Payment type is required.");
@@ -113,6 +115,9 @@ public class PaimentService implements IPaiementService {
         System.out.println("Payment retrieved successfully (ID: " + id + ")");
         return paiement;
     }
+
+//    public
+
     @Override
     public void updateIsValide(boolean isValide, int id){
         this.paiementReapository.updateisValide(isValide, id);
@@ -176,6 +181,64 @@ public class PaimentService implements IPaiementService {
             }
         }
 
+    }
+
+    @Override
+    public void FiltrePaymentParAgent(String AgentNom) {
+        List<Paiment> paiments = getAll();
+        Agent agent = this.agentService.finByName(AgentNom);
+
+        List<Paiment> paimentStream = paiments.stream()
+                .filter(obj -> obj.getAgentId() == agent.getIdAgent())
+                .toList();
+
+        if (paimentStream.isEmpty()) {
+            System.out.println(AgentNom + "has no Paiement");
+        } else {
+            for (Paiment paiment : paimentStream) {
+                System.out.println(
+                        "Type de Paiement: " + paiment.getTypePaiement() +
+                                " || Montant: " + paiment.getMontant() +
+                                " || Date de Paiement: " + paiment.getDate() +
+                                " || Motif: " + paiment.getMotif() +
+                                " || Valide: " + paiment.isValide()
+                );
+            }
+
+        }
+    }
+
+    @Override
+    public void TotalePaiementParAgent(String name){
+        List<Paiment> paiments = getAll();
+        double totale = 0;
+        List<Paiment> paimentStream = paiments.stream()
+                .filter(obj -> Objects.equals(obj.getAgent().getNom(), name) && obj.isValide())
+                .toList();
+
+        for(Paiment paiment : paimentStream){
+            totale += paiment.getMontant();
+        }
+        System.out.println("Le totale des paiement est " + totale);
+
+    }
+
+    @Override
+    public void TotalPaiementParDepartement(String departement){
+        int id = this.departementService.findId(departement);
+
+        List<Paiment> paiments = this.paiementReapository.getAll();
+
+        double total = paiments.stream()
+                .filter(p ->  p.getAgent().getDepartement().getIdDepartement() == id && p.isValide())
+                .mapToDouble(Paiment::getMontant)
+                .sum();
+
+        if (total == 0) {
+            System.out.println("No payments found for department: " + departement);
+        } else {
+            System.out.println("Total payments for department " + departement + ": " + total);
+        }
     }
 
 }

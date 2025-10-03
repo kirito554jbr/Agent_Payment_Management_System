@@ -13,4 +13,5 @@ public interface IAgentService {
     void PaiementHistorique(int id);
     void Totale(int id);
     void PrintById(int id);
+    Agent finByName(String name);
 }

@@ -12,15 +12,7 @@ public class DepartementDao {
     static Connection conn = MyJDBC.getConnection();
 
 
-    public static void main(String[] args) throws SQLException {
-        DepartementDao dao = new DepartementDao();
-//        dao.create("Managment");
-//        dao.delete("iT");
-//        dao.getAll();
-//        dao.getAll();
 
-        System.out.println(dao.findById(1));
-    }
 
     public boolean create(Departement departement){
 
@@ -58,11 +50,11 @@ public class DepartementDao {
 
 
     public boolean update(Departement departement , String updatedNom){
-        String sql = "UPDATE department SET nom = ? WHERE nom = ?";
+        String sql = "UPDATE departement SET nom = ? WHERE idDepartement = ?";
 
         try(PreparedStatement stmt = conn.prepareStatement(sql)){
             stmt.setString(1,updatedNom);
-            stmt.setString(1,departement.getNom());
+            stmt.setInt(2,departement.getIdDepartement());
             int row = stmt.executeUpdate();
             return row > 0;
         }catch (SQLException e){

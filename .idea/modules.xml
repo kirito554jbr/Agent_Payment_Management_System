@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Agent_Payment_Management_System.iml" filepath="$PROJECT_DIR$/Agent_Payment_Management_System.iml" />
+      <module fileurl="file://$PROJECT_DIR$/docs/docs.iml" filepath="$PROJECT_DIR$/docs/docs.iml" />
+      <module fileurl="file://$PROJECT_DIR$/docs/uml/uml.iml" filepath="$PROJECT_DIR$/docs/uml/uml.iml" />
     </modules>
   </component>
 </project>

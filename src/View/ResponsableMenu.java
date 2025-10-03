@@ -30,10 +30,11 @@ public class ResponsableMenu {
             System.out.println("1. Ajouter un agent");
             System.out.println("2. Modifier un agent");
             System.out.println("3. Supprimer un agent");
-            System.out.println("4. Affecter un agent à un département");
-            System.out.println("5. Ajouter un paiement à un agent");
-            System.out.println("6. Consulter et filtrer les paiements d’un agent ou d’un département");
-            System.out.println("7. Identifier les paiements inhabituels ou incorrects");
+//            System.out.println("4. Affecter un agent à un département");
+            System.out.println("4. Ajouter un paiement à un agent");
+            System.out.println("5. Consulter et filtrer les paiements d’un agent");
+            System.out.println("6. Calculer la totale des paiement par agent");
+            System.out.println("7. Valider Un paiement");
             System.out.println("8. Se déconnecter");
             System.out.print("👉 Votre choix : ");
 
@@ -75,7 +76,7 @@ public class ResponsableMenu {
                     System.out.print("🏢 Département : ");
                     String updatedDepartemenet = scanner.nextLine();
 
-                    System.out.print("🧑‍💼 Type d’agent (ex: ADMIN, AGENT, RESPONSABLE) : ");
+                    System.out.print("🧑‍💼 Type d’agent (ex: TRAINEE, WORKER) : ");
                     String updatedTypeAgent = scanner.nextLine();
 
                     System.out.print("👤 Nom : ");
@@ -101,20 +102,56 @@ public class ResponsableMenu {
                     this.agentController.delete(NameToDelete);
                     break;
                 case 4:
-                    System.out.println("🏢 Affectation d’un agent à un département...");
-                    // TODO: assignAgentToDepartment();
+                    scanner.nextLine();
+                    System.out.println("✏️ Ajouter un paiement...");
+
+                    System.out.print("👤 Nom : ");
+                    String AgentName = scanner.nextLine();
+
+                    System.out.println("💰 Paiement Type , ex (SALAIRE, PRIME, BONUS, INDEMNITE)");
+                    String typePaiement = scanner.nextLine();
+
+                    System.out.print("💰 montant : ");
+                    double montant  = Double.parseDouble(scanner.nextLine());
+
+                    System.out.print("🧐 Motif? : ");
+                    String motif = scanner.nextLine();
+
+
+                    System.out.println("💰 Ajout d’un paiement à un agent...");
+                    this.paiementController.create(typePaiement, montant, motif, AgentName);
                     break;
                 case 5:
-                    System.out.println("💰 Ajout d’un paiement à un agent...");
-                    // TODO: addPayment();
+                    scanner.nextLine();
+
+                    System.out.print("👤 Nom : ");
+                    String AgentNom = scanner.nextLine();
+
+                    System.out.println("📑 Consultation/filtrage des paiements...");
+                    this.paiementController.FiltrePaymentParAgent(AgentNom);
                     break;
                 case 6:
-                    System.out.println("📑 Consultation/filtrage des paiements...");
-                    // TODO: viewAndFilterPayments();
+                    scanner.nextLine();
+
+                    System.out.print("👤 Nom : ");
+                    String Nom = scanner.nextLine();
+                    System.out.println("Calculation en cours...");
+                    this.paiementController.TotaleParAgent(Nom);
+
                     break;
                 case 7:
-                    System.out.println("⚠️ Identification des paiements inhabituels ou incorrects...");
-                    // TODO: detectAnomalies();
+                    scanner.nextLine();
+
+                    System.out.print("👤 Nom : ");
+                    String Nome = scanner.nextLine();
+
+                    this.paiementController.FiltrePaymentParAgent(Nome);
+                    System.out.print("📑 IdPaiement : ");
+                    int IdPaiement = Integer.parseInt(scanner.nextLine());
+                    System.out.print("True✅ or False❌ : ");
+                    Boolean isValid = Boolean.valueOf(scanner.nextLine());
+
+                    this.paiementController.updateIsValide(isValid, IdPaiement);
                     break;
                 case 8:
                     System.out.println("👋 Déconnexion réussie !");

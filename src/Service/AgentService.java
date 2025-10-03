@@ -9,12 +9,11 @@ import Repository.DepartementRepository;
 import Repository.Interface.IAgentRepositoryInterface;
 import Repository.Interface.IDepartementRepositoryInterface;
 import Repository.Interface.ITypeAgentRepositoryInterface;
+import Repository.PaiementRepository;
 import Service.Interfaces.IAgentService;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class AgentService implements IAgentService {
 
@@ -26,9 +25,9 @@ public class AgentService implements IAgentService {
 
 
     public static void main(String[] args) {
-        AgentService agentService = new AgentService(new DepartementRepository(), new AgentRepository(), new Departement(), new PaimentService());
+//        AgentService agentService = new AgentService(new DepartementRepository(), new AgentRepository(), new Departement(), new PaimentService(new PaiementRepository(), new DepartementService(), new AgentService()));
 //        Agent agent = new Agent();
-        agentService.Totale(1);
+     //   agentService.Totale(1);
 //        agentService.create("IT","Worker","ahmed","foullan","ahmed@gmail.com","0000");
 //        agentService.create("IT","DEPARTMENT_MANAGER","MR","president","admin@gmail.com","0000");
 //            agentService.logIn("aymen@gmail.com","0000");
@@ -39,12 +38,15 @@ public class AgentService implements IAgentService {
 //        agentService.update("ahmed","IT","Worker",null,null,"admin123@gmail.com","1234");
     }
 
-    public AgentService(DepartementRepository departementRepository, AgentRepository agent, Departement departement, PaimentService paimentService) {
+    public AgentService(DepartementRepository departementRepository, IAgentRepositoryInterface agent, Departement departement, PaimentService paimentService) {
 
         this.departementRepository = departementRepository;
         this.agent = agent;
         this.departement = departement;
         this.paimentService = paimentService;
+    }
+    public AgentService(){
+        this.agent=new AgentRepository();
     }
 //    public AgentService(){}
 
@@ -217,6 +219,16 @@ public class AgentService implements IAgentService {
 
         for(Agent agent : agentStream){
             System.out.println(agent);
+        }
+    }
+
+    @Override
+    public Agent finByName(String name) {
+        if (name != null) {
+                Agent agent = this.agent.findByName(name);
+            return agent;
+        }else {
+        return null;
         }
     }
 

@@ -1,10 +1,15 @@
 package Service.Interfaces;
 
+import Model.Departement;
+
+import java.util.List;
+
 public interface IDepartementService {
 
     void create(String nom);
     void delete(String nom);
     void update(String nom, String updatedNom);
-    void getAll();
+    List<Departement> getAll();
+    int findId(String departement);
 
 }

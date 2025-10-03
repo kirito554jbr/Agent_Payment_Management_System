@@ -51,4 +51,19 @@ public class PaiementRepository implements IPaiementRepositoryInterface {
         }
     }
 
+    @Override
+    public void TotaleParAgent(String name){
+        List<Paiment> paiments = getAll();
+        double totale = 0;
+        List<Paiment> paimentStream = paiments.stream()
+                .filter(obj -> obj.getAgent().getNom() == name && obj.isValide())
+                .toList();
+
+        for(Paiment paiment : paimentStream){
+            totale += paiment.getMontant();
+        }
+        System.out.println(totale);
+
+    }
+
 }

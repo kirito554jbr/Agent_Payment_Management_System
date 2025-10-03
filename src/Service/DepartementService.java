@@ -53,9 +53,10 @@ public class DepartementService implements IDepartementService {
         } else if (updatedNom.isEmpty()) {
             System.out.println("Missing the required field updatedNom");
         }
+        Departement departement = this.depatementRepo.findByName(nom);
 
-        Departement departement = new Departement(nom);
-        boolean updated = this.depatementRepo.update(departement, nom);
+//        Departement departement = new Departement(nom);
+        boolean updated = this.depatementRepo.update(departement, updatedNom);
 
         if(updated){
             System.out.println("Department updated successfully!");
@@ -64,10 +65,16 @@ public class DepartementService implements IDepartementService {
         }
     }
     @Override
-    public void getAll(){
-        List<Departement> departements = this.depatementRepo.getdAll();
-        for (Departement departement : departements) {
-            System.out.println(departement);
-        }
+    public List<Departement> getAll(){
+       List<Departement> departements = this.depatementRepo.getdAll();
+//        for (Departement departement : departements) {
+//            System.out.println(departement);
+//        }
+        return departements;
     }
+
+    public int findId(String departement){
+        return this.depatementRepo.findId(departement);
+    }
+
 }

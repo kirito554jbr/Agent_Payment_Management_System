@@ -1,0 +1,22 @@
+@startuml
+actor Responsable
+participant ResponsableMenu
+participant AgentController
+participant AgentService
+participant AgentRepository
+participant AgentDao
+database DB
+
+Responsable -> ResponsableMenu : choisir Ajout d’un nouvel agent
+ResponsableMenu -> AgentController : create(String departementName,  String typeAgent, String nom, String prenom, String email, String password)
+AgentController -> AgentService : String departementName,  String typeAgent, String nom, String prenom, String email, String password
+AgentService -> AgentRepository : create(Agent)
+AgentRepository -> AgentDao : create(Agent)
+AgentDao -> DB : Insert nouveaux agent
+DB --> AgentDao : id genere
+AgentDao -> AgentRepository : true
+AgentRepository -> AgentService : true
+AgentService -> AgentController : Agent créé avec succès
+AgentController -> ResponsableMenu : Agent créé avec succès
+ResponsableMenu -> Responsable : Agent créé avec succès
+@enduml

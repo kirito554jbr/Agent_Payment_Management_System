@@ -1,7 +1,10 @@
 package Controller;
 
+import Model.Agent;
 import Service.Interfaces.IPaiementService;
 import Service.PaimentService;
+
+import java.time.LocalDate;
 
 public class PaiementController {
 
@@ -32,5 +35,25 @@ public class PaiementController {
 
     public void FiltreParMontant(double min, double max, int id){
         this.paiementService.FiltreParMontant(min,max,id);
+    }
+
+    public void create(String typePaiement, Double montant, String motif, String agentName){
+        this.paiementService.create(typePaiement, montant, motif, agentName);
+    }
+
+    public void FiltrePaymentParAgent(String AgentName){
+        this.paiementService.FiltrePaymentParAgent(AgentName);
+    }
+
+    public void TotaleParAgent(String name){
+        this.paiementService.TotalePaiementParAgent(name);
+    }
+
+    public void updateIsValide(boolean isValide, int id){
+        this.paiementService.updateIsValide(isValide, id);
+    }
+
+    public void TotalPaiementParDepartement(String departement){
+        this.paiementService.TotalPaiementParDepartement(departement);
     }
 }
